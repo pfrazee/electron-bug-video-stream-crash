@@ -21,7 +21,7 @@ function createWindow () {
     (request, cb) => {
       cb({
         method: request.method,
-        url: 'http://localhost:8080/'
+        url: 'http://localhost:8080/' + request.url
       })
     }, err => {
       if (err) throw err

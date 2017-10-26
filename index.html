@@ -11,12 +11,14 @@
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
 
-
+    <button onclick="reloadpage()">reload</button>
+    <webview src="custom://page"></webview>
     <webview src="custom://video"></webview>
   </body>
 
   <script>
     // You can also require other files to run in this process
+    window.reloadpage = () => document.querySelector('webview').getWebContents().reload()
     require('./renderer.js')
   </script>
   <style>

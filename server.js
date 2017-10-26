@@ -2,6 +2,13 @@ var fs = require('fs')
 var parseRange = require('range-parser')
 
 module.exports = function (req, res) {
+  if (req.url === '/custom://page/') {
+    res.writeHead(200, 'OK', {'Content-Type': 'text/html', 'Content-Length': '<h1>Hello!</h1>'.length})
+    res.write('<h1>Hello!</h1>')
+    setTimeout(() => res.end(), 1e3)
+    return
+  }
+
   // get size
   var st = fs.statSync('./video.mp4')
 
@@ -11,7 +18,7 @@ module.exports = function (req, res) {
   var range = req.headers.range && parseRange(st.size, req.headers.range)
   if (range && range.type === 'bytes') {
     range = range[0] // only handle first range given
-    range.end = range.start + (1024*1024)
+    // range.end = range.start + (1024*1024)
     statusCode = 206
     res.setHeader('Content-Range', 'bytes ' + range.start + '-' + range.end + '/' + st.size)
     res.setHeader('Content-Length', range.end - range.start + 1)
